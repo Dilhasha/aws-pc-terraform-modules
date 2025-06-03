@@ -1,0 +1,49 @@
+# -------------------------------------------------------------------------------------
+#
+# Copyright (c) 2024, WSO2 LLC (http://www.wso2.com). All Rights Reserved.
+#
+# This software is the property of WSO2 LLC and its suppliers, if any.
+# Dissemination of any information or reproduction of any material contained
+# herein in any form is strictly forbidden, unless permitted by WSO2 expressly.
+# You may not alter or remove any copyright or other notice from copies of this content.
+#
+# --------------------------------------------------------------------------------------
+
+project     = "wsopinc"
+environment = "dev"
+# main.tf
+mysql_db_type = "db.t4g.large"
+application   = "pinc"
+region        = "us-west-1"
+default_tags = {
+  "Owner"      = "xx@gmail.com"
+  "CreatedBy"  = "xxx"
+  "Deployment" = "PINC"
+  "Name"       = "Pinc-TestEKS"
+}
+enable_tier_two = false
+ssh_public_key  = "ssh-rsa xxxxxx xx@xx.local"
+vpc_cidr_range = "10.20.0.0/16"
+k8s_version    = "1.31"
+management_ami_id     = "ami-07d2649d67dbe8900"
+public_allow_cidrs    = ["0.0.0.0/0"]
+eks_instance_types    = ["t3a.large"]
+k8s_repo              = "xxx/*"
+git_oidc_provider_arn = "arn:aws:iam::xxxx:oidc-provider/token.actions.githubusercontent.com"
+user_db_secret_arn    = "arn:aws:secretsmanager:us-west-1:xxxxx:secret:test/int-dbs-4GaT-4QepLi"
+
+# CI
+github_org_name             = "xxxx"
+github_personal_access_token = "xxxx"
+devops_ci_project_build_branch = "refs/heads/demo-aws"
+ci_project_integration_build_repo_name = "pinc-cicd-common"
+ci_bucket_name = "pinc-ci-bucket"
+
+# CD
+devops_cd_project_build_branch = "refs/heads/demo-aws"
+cd_project_integration_build_repo_name = "pinc-cicd-int"
+cd_bucket_name = "pinc-cd-bucket"
+integration_bucket_name = "pinc-integration-bucket"
+
+# Create an admin role to access the k8s cluster
+admin_role = "arn:aws:iam::xxxxxx:user/admin-access"

@@ -19,4 +19,5 @@ locals {
   public_subnets = [for i in range(var.az_distribution) : cidrsubnet(local.subnets[2], 27 - tonumber(split("/", local.subnets[2])[1]), i)]
   # /28 prefix length for management subnets
   management_subnets = [for i in range(var.az_distribution) : cidrsubnet(local.subnets[0], 28 - tonumber(split("/", local.subnets[0])[1]), i)]
+  ecr_registry_url = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com"
 }

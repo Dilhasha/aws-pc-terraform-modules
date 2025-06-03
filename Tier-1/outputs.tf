@@ -31,15 +31,6 @@ output "csi_ebs_role_name" {
 output "public_security_group_id" {
   value = module.vpc.public_security_group_id
 }
-output "ecr_repository_name" {
-  value = module.ecr.ecr_repository_url
-}
-output "ecr_push_role_arn" {
-  value = module.ecr_push_role.iam_role_arn
-}
-output "eks_management_role_arn" {
-  value = module.ecr.ecr_repository_url
-}
 output "ssm_parameter_read_only_role_arn" {
   value = module.ssm_parameter_read_only_role.iam_role_arn
 }

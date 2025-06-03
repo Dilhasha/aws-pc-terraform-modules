@@ -40,56 +40,6 @@ module "vpc" {
   availability_zones = local.availability_zones
 }
 
-module "ecr" {
-  source          = "git::https://github.com/wso2/aws-terraform-modules.git//modules/aws/ECR?ref=UnitOfWork"
-  project         = var.project
-  environment     = var.environment
-  region          = var.region
-  application     = var.application
-  tags            = var.default_tags
-  image_repo_name = "wso2_apim_private_cloud"
-}
-
-data "aws_iam_policy_document" "admin_policy" {
-  statement {
-    sid    = "Push only policy"
-    effect = "Allow"
-
-    principals {
-      type        = "AWS"
-      identifiers = [module.ecr_push_role.iam_role_arn]
-    }
-
-    actions = [
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:CompleteLayerUpload",
-      "ecr:InitiateLayerUpload",
-      "ecr:PutImage",
-      "ecr:UploadLayerPart"
-    ]
-  }
-  statement {
-    sid    = "Pull only policy"
-    effect = "Allow"
-
-    principals {
-      type        = "AWS"
-      identifiers = [module.eks_node_group_role.iam_role_arn]
-    }
-
-    actions = [
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage",
-      "ecr:BatchCheckLayerAvailability"
-    ]
-  }
-}
-
-resource "aws_ecr_repository_policy" "ecr_policy" {
-  repository = module.ecr.ecr_id
-  policy     = data.aws_iam_policy_document.admin_policy.json
-}
-
 module "eks" {
   source                     = "git::https://github.com/wso2/aws-cloud-terraform-modules.git//Compute/EKS-Cluster?ref=main"
   region                     = var.region
@@ -128,7 +78,7 @@ module "eks" {
       ip_protocol    = "-1"
       security_group = module.vpc.management_security_group_id
     }
-  ]
+  ]  
 }
 
 module "nodegroup" {
